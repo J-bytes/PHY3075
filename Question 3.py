@@ -5,7 +5,7 @@ Created on Tue Jan  7 18:36:01 2020
 @author: Jonathan Beaulieu-Emond
 """
 
-
+#Importation des modules nécessaires
 import numpy as np
 from numba import jit
 from scipy.constants import *
@@ -17,16 +17,18 @@ from scipy.constants import pi
 from scipy.optimize import curve_fit
 #Fonction calculant le cote droit des EDO
 
-@jit
-def g(t0,u,Ia) :
-    global Cm,condition
-    if t0>=1 and condition :
+@jit #Préfixe nécessaire pour numba(compilateur )
+def g(t0,u,Ia) : # Calcule le prochain pas de temps
+    global Cm,condition # Permet de définir ces variables en dehors de la fonction
+    if t0>=1 and condition : # Condition permettant de couper le courant après une seconde
         Ia=0
-    
+    #Liste des paramètres
     Vk,Vna,Vl= -12,115,10.6
     Gk,Gna,Gl=36,120,0.3
+    #Liste des variables
     V,n,m,h=u[0],u[1],u[2],u[3]
     
+    #Calcul des équations différentielles
     gV=Ia-Gk*n**4*(V-Vk)-Gna*m**3*h*(V-Vna)-Gl*(V-Vl) # RHS Eq (1.68) 
     #print(Ia)
     gV=gV/Cm
@@ -85,18 +87,14 @@ def main(A) :
     x=t[c]
     y=u[:,0][c]
     point=find_peaks(y)[0] # point maximum
-    #ax1.plot(x[point],y[point],'.')
-    """
-    lable=['n','m','h']
-    for i in range (0,3) :
-        ax2.plot(t[c],u[:,i+1][c],label=lable[i])
-    """
+    
+    
     m=x[point][1::]
     
     lambd=[]
-    amplitude=(np.mean(y[point][1::]))
+    amplitude=(np.mean(y[point][1::])) # amplitude moyenne
     for j in range(0,len(m)-1):
-        lambd.append(abs(m[j]-m[j+1]))
+        lambd.append(abs(m[j]-m[j+1])) # calcule la longueur d'onde moyenne
         
     lambd_f=np.mean(lambd)
     
