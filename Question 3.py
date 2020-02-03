@@ -118,22 +118,7 @@ for i in Iaa :
     a,b=main(i)
     lambd_f.append(a)
     amplitude.append(b)
-    
-"""
-plt.xlabel('temps en seonde')
-ax1.set_ylabel('Voltage en $\mu$A ')
-ax2.set_ylabel('probabilité n,l,m sans unité')
-plt.title('Voltage en fonction du temps ')
-ax1.axvspan(0,1, alpha=0.5, color='grey')
-ax1.set_ylim(ymin=-20)
-ax1.set_xlim(xmin=0)
-ax2.set_ylim(ymin=0)
-ax2.set_xlim(xmin=0)
-ax1.legend(loc='upper right')
-ax2.legend(loc='upper left')
-#plt.legend()
-plt.show()
-"""
+
 lambd_f=np.array(lambd_f)
 lambd_f=2*pi/lambd_f
 def f(x,a,b) :
